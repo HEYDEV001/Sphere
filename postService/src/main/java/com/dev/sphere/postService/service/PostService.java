@@ -2,11 +2,14 @@ package com.dev.sphere.postService.service;
 
 import com.dev.sphere.postService.dto.PostDto;
 import com.dev.sphere.postService.dto.PostRequestDto;
-import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 public interface PostService {
     PostDto createPost(PostRequestDto postRequestDto, Long userId);
 
     PostDto getPostById(Long postId);
+
+    List<PostDto> getAllPostsOfUser(Long userId);
 }
