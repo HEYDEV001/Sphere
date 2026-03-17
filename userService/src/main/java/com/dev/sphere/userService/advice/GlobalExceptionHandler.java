@@ -1,6 +1,6 @@
 package com.dev.sphere.userService.advice;
 
-import com.dev.sphere.postService.exception.BadRequestException;
+import com.dev.sphere.userService.exception.BadRequestException;
 import com.dev.sphere.userService.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
