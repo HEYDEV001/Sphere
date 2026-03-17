@@ -3,11 +3,13 @@ package com.dev.sphere.postService.service;
 import com.dev.sphere.postService.dto.PostDto;
 import com.dev.sphere.postService.dto.PostRequestDto;
 import com.dev.sphere.postService.entity.Post;
+import com.dev.sphere.postService.exception.ResourceNotFoundException;
 import com.dev.sphere.postService.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
 
 @Service
 @RequiredArgsConstructor
@@ -25,5 +27,14 @@ public class PostServiceImpl implements PostService {
         Post savedPost = postRepository.save(newPost);
         log.info("Saved post: {}", savedPost);
         return modelMapper.map(savedPost, PostDto.class);
+    }
+
+    @Override
+    public PostDto getPostById(Long postId) {
+        log.info("Get post by id: {}", postId);
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post Not found with Id: "+postId));
+        log.info("Got The post by id: {}", post);
+        return modelMapper.map(post, PostDto.class);
     }
 }

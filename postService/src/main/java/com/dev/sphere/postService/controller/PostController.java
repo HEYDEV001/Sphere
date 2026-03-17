@@ -6,16 +6,15 @@ import com.dev.sphere.postService.repository.PostRepository;
 import com.dev.sphere.postService.service.PostService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
+@Slf4j
 public class PostController {
 
     private final PostService postService;
@@ -25,4 +24,11 @@ public class PostController {
         PostDto createdPost = postService.createPost(postRequestDto, 1L);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostDto> getPostById(@PathVariable Long postId) {
+        log.info("Getting post by id: {}", postId);
+        return ResponseEntity.ok(postService.getPostById(postId));
+    }
+
 }
