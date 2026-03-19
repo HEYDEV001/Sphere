@@ -1,16 +1,21 @@
 package com.dev.sphere.connection_service.entity;
 
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
-import org.springframework.data.neo4j.core.schema.Id;
-import org.springframework.data.neo4j.core.schema.Node;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.neo4j.core.schema.*;
 
-@Node
+
+@Setter
+@Getter
+@Node("Person")
 public class Person {
+
     @Id
     @GeneratedValue
-    private Long Id;
+    private Long id;
 
-    private Long userID;
+    private Long userId;
 
     private String name;
+
 }

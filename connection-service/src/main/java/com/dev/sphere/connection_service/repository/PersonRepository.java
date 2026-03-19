@@ -12,9 +12,17 @@ import java.util.Optional;
 public interface PersonRepository extends Neo4jRepository<Person, Long> {
     Optional<Person> getByName(String name);
 
+    @Query("""
+            MATCH (personA:Person)-[:CONNECTED_TO]-(personB:Person)
+            WHERE personA.userId = $userId
+            OPTIONAL MATCH (personB)-[r]-()
+            RETURN personB, collect(r) AS rels
+            """)
+    List<Person> getFirstDegreeConnections(Long userId);
+
     @Query("MATCH (personA:Person) -[:CONNECTED_TO]- (personB:Person)" +
             " WHERE personA.userId = $userId " +
             "RETURN personB")
-    List<Person> getFirstDegreeConnections(Long userId);
-
+        //TODO: Change the Query to get the second degree connections
+    List<Person> getSecondDegreeConnections(Long userId);
 }

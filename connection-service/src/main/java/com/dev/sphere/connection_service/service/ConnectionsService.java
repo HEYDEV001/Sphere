@@ -21,4 +21,8 @@ public class ConnectionsService {
         return personRepository.getFirstDegreeConnections(userId);
     }
 
+    public List<Person> getSecondDegreeConnection(Long userId) {
+        log.info("get Second Degree Connection for the User with Id: {}", userId);
+        return personRepository.getSecondDegreeConnections(userId);
+    }
 }

@@ -24,4 +24,9 @@ public class ConnectionsController {
     public ResponseEntity<List<Person>> getFirstConnections(@PathVariable Long userId) {
         return new ResponseEntity<>( connectionsService.getFirstDegreeConnection(userId), HttpStatus.FOUND);
     }
+    @GetMapping("/{userId}/second-degree")
+    public ResponseEntity<List<Person>> getSecondConnections(@PathVariable Long userId) {
+        return new ResponseEntity<>( connectionsService.getSecondDegreeConnection(userId), HttpStatus.FOUND);
+    }
+
 }
