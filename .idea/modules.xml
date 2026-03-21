@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Sphere.iml" filepath="$PROJECT_DIR$/.idea/Sphere.iml" />
-      <module fileurl="file://$PROJECT_DIR$/postService/postService.iml" filepath="$PROJECT_DIR$/postService/postService.iml" />
     </modules>
   </component>
 </project>
