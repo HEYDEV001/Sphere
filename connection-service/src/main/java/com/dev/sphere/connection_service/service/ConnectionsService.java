@@ -1,5 +1,6 @@
 package com.dev.sphere.connection_service.service;
 
+import com.dev.sphere.connection_service.auth.UserContextHolder;
 import com.dev.sphere.connection_service.entity.Person;
 import com.dev.sphere.connection_service.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,8 @@ public class ConnectionsService {
 
     private final PersonRepository personRepository;
 
-    public List<Person> getFirstDegreeConnection(Long userId) {
+    public List<Person> getFirstDegreeConnection() {
+        Long userId = UserContextHolder.getCurrentUser();
         log.info("get First Degree Connection for the User with Id: {}", userId);
         return personRepository.getFirstDegreeConnections(userId);
     }

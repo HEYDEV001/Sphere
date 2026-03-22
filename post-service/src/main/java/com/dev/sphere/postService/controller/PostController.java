@@ -1,5 +1,6 @@
 package com.dev.sphere.postService.controller;
 
+import com.dev.sphere.postService.auth.UserContextHolder;
 import com.dev.sphere.postService.dto.PostDto;
 import com.dev.sphere.postService.dto.PostRequestDto;
 import com.dev.sphere.postService.service.PostService;
@@ -28,7 +29,7 @@ public class PostController {
 
     @GetMapping("/{postId}")
     public ResponseEntity<PostDto> getPostById(@PathVariable Long postId) {
-//        String userId =httpServletRequest.getHeader("userId");
+        Long userId  = UserContextHolder.getCurrentUser();
         log.info("Getting post by id: {}", postId);
         return ResponseEntity.ok(postService.getPostById(postId));
     }

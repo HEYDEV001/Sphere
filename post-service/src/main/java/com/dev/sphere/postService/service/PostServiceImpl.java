@@ -1,5 +1,8 @@
 package com.dev.sphere.postService.service;
 
+import com.dev.sphere.postService.auth.UserContextHolder;
+import com.dev.sphere.postService.clients.ConnectionsClient;
+import com.dev.sphere.postService.dto.PersonDto;
 import com.dev.sphere.postService.dto.PostDto;
 import com.dev.sphere.postService.dto.PostRequestDto;
 import com.dev.sphere.postService.entity.Post;
@@ -21,6 +24,7 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final ModelMapper modelMapper;
+    private final ConnectionsClient connectionsClient;
 
     @Override
     public PostDto createPost(PostRequestDto postRequestDto, Long userId) {
@@ -35,6 +39,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto getPostById(Long postId) {
         log.info("Get post by id: {}", postId);
+
+        Long userId = UserContextHolder.getCurrentUser();
+        List<PersonDto> firstConnections = connectionsClient.getFirstConnections();
+// TODO: Send Notification To All the Connections
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post Not found with Id: "+postId));
         log.info("Got The post by id: {}", post);
