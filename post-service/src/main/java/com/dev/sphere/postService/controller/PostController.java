@@ -22,14 +22,13 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping
-    public ResponseEntity<PostDto> createPost(@RequestBody PostRequestDto postRequestDto, HttpServletRequest httpServletRequest) {
-        PostDto createdPost = postService.createPost(postRequestDto, 1L);
+    public ResponseEntity<PostDto> createPost(@RequestBody PostRequestDto postRequestDto) {
+        PostDto createdPost = postService.createPost(postRequestDto);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }
 
     @GetMapping("/{postId}")
     public ResponseEntity<PostDto> getPostById(@PathVariable Long postId) {
-        Long userId  = UserContextHolder.getCurrentUser();
         log.info("Getting post by id: {}", postId);
         return ResponseEntity.ok(postService.getPostById(postId));
     }
