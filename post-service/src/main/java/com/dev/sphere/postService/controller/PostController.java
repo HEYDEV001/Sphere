@@ -34,9 +34,9 @@ public class PostController {
     }
 
     @PostMapping("/users/{userId}/allPosts")
-    public ResponseEntity<List<PostDto>> getAllPostsOfUser(@PathVariable Long userId){
+    public ResponseEntity<List<PostDto>> getAllPostsOfUser(@PathVariable Long userId) {
         log.info("Getting all posts by user id: {}", userId);
-        List<PostDto> allPosts= postService.getAllPostsOfUser(userId);
+        List<PostDto> allPosts = postService.getAllPostsOfUser(userId);
         return ResponseEntity.ok(allPosts);
     }
 

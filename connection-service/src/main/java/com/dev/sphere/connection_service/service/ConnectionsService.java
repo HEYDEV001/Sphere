@@ -33,7 +33,7 @@ public class ConnectionsService {
         log.info("Getting Sender's Id From the UserContextHolder");
         Long senderId = UserContextHolder.getCurrentUser();
 
-        if(senderId == receiverId){
+        if (senderId == receiverId) {
             throw new RuntimeException("Sender Id and Receiver Id are the same, you can not send request to yourself");
         }
 
@@ -46,7 +46,7 @@ public class ConnectionsService {
         log.info("Checking if the Connection Already exist or not");
         boolean alreadyConnected = personRepository.alreadyConnected(senderId, receiverId);
         if (alreadyConnected) {
-          throw new RuntimeException("Connection already exists, can not send connection request");
+            throw new RuntimeException("Connection already exists, can not send connection request");
         }
 
         log.info("Sending connection request from {} to {}", senderId, receiverId);
@@ -67,7 +67,7 @@ public class ConnectionsService {
         Long receiverId = UserContextHolder.getCurrentUser();
         log.info("Checking if the Connection request Already exist ");
         boolean connectionRequestExists = personRepository.connectionRequestExists(senderId, receiverId);
-        if(!connectionRequestExists){
+        if (!connectionRequestExists) {
             throw new RuntimeException("Connection Request does not exist");
         }
         log.info("Accepting the connection request from {} to {}", senderId, receiverId);
@@ -89,7 +89,7 @@ public class ConnectionsService {
         Long receiverId = UserContextHolder.getCurrentUser();
         log.info("Checking if the request Already exist ");
         boolean connectionRequestExists = personRepository.connectionRequestExists(senderId, receiverId);
-        if(!connectionRequestExists){
+        if (!connectionRequestExists) {
             throw new RuntimeException("Connection Request does not exist, Can not reject connection request");
         }
         log.info("Rejecting the connection request from {} to {}", senderId, receiverId);
@@ -98,12 +98,8 @@ public class ConnectionsService {
     }
 
     public Person createPerson(Person person) {
-        log.info("Creating a new person with userId : {}, and name : {}", person.getUserId(),person.getName());
+        log.info("Creating a new person with userId : {}, and name : {}", person.getUserId(), person.getName());
         return personRepository.save(person);
     }
 
-//    public List<Person> getSecondDegreeConnection(Long userId) {
-//        log.info("get Second Degree Connection for the User with Id: {}", userId);
-//        return personRepository.getSecondDegreeConnections(userId);
-//    }
 }

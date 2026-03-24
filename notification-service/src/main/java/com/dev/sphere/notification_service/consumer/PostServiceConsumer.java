@@ -21,14 +21,15 @@ public class PostServiceConsumer {
 
     private final ConnectionsClient connectionsClient;
     private final SendNotification sendNotification;
+
     @KafkaListener(topics = "post-created-topic")
     public void handelPostCreated(PostCreatedEvent postCreatedEvent) {
         log.info("Sending Notification for postCreated event: {}", postCreatedEvent);
-        List<PersonDto> firstDegreeConnections= connectionsClient.getFirstConnections(postCreatedEvent.getCreatorId());
+        List<PersonDto> firstDegreeConnections = connectionsClient.getFirstConnections(postCreatedEvent.getCreatorId());
         for (PersonDto connection : firstDegreeConnections) {
 
             sendNotification.send(connection.getUserId(),
-                    "Your Connection " + postCreatedEvent.getCreatorId()+"created a post, Check it Out");
+                    "Your Connection " + postCreatedEvent.getCreatorId() + "created a post, Check it Out");
         }
 
     }
@@ -39,11 +40,9 @@ public class PostServiceConsumer {
         String message = String.format("you post %d has been liked by %d"
                 , postLikedEvent.getPostId(), postLikedEvent.getLikedByUserId());
 
-        sendNotification.send(postLikedEvent.getCreatorId(),message);
+        sendNotification.send(postLikedEvent.getCreatorId(), message);
         log.info("Post has been liked by user with Id: {}", postLikedEvent.getLikedByUserId());
     }
-
-
 
 
 }

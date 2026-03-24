@@ -9,9 +9,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String userId =request.getHeader("userId");
-        if(userId != null){
-           UserContextHolder.setCurrentUser(Long.valueOf(userId));
+        String userId = request.getHeader("userId");
+        if (userId != null) {
+            UserContextHolder.setCurrentUser(Long.valueOf(userId));
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

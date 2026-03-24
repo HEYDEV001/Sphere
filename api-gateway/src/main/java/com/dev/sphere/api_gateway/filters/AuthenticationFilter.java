@@ -3,7 +3,6 @@ package com.dev.sphere.api_gateway.filters;
 import com.dev.sphere.api_gateway.service.JwtService;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpStatus;
@@ -21,9 +20,10 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         super(config.class);
         this.jwtService = jwtService;
     }
+
     @Override
     public GatewayFilter apply(config config) {
-        return (exchange, chain) ->{
+        return (exchange, chain) -> {
             log.info("login Request {}", exchange.getRequest().getURI());
             final String tokenHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
             if (tokenHeader == null || !tokenHeader.startsWith("Bearer ")) {
@@ -34,29 +34,28 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
             final String token = tokenHeader.split("Bearer ")[1];
 
-            try{
+            try {
                 String userId = jwtService.getIdFromTheToken(token);
 
                 ServerWebExchange modifiedExchange = exchange
                         .mutate()
-                        .request(req->req.header("userId", userId))
+                        .request(req -> req.header("userId", userId))
                         .build();
 
 
                 return chain.filter(modifiedExchange);
-            }catch (JwtException e) {
+            } catch (JwtException e) {
                 log.error("Jwt Exception {}", e.getLocalizedMessage());
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
 
                 return exchange.getResponse().setComplete();
             }
 
-        } ;
+        };
     }
 
 
-
-    public static class config{
+    public static class config {
 
     }
 }

@@ -17,7 +17,6 @@ public class SendNotification {
         Notification notification = new Notification();
         notification.setUserId(userId);
         notification.setMessage(message);
-
         notificationRepository.save(notification);
         log.info("Notification sent to user {}", userId);
     }

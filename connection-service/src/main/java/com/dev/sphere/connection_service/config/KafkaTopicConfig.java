@@ -7,12 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KafkaTopicConfig {
 
-
     @Bean
     public NewTopic sendConnectionTopic() {
         return new NewTopic("send-connection-topic", 3, (short) 1);
     }
-
 
     @Bean
     public NewTopic acceptConnectionTopic() {
