@@ -97,6 +97,11 @@ public class ConnectionsService {
         return true;
     }
 
+    public Person createPerson(Person person) {
+        log.info("Creating a new person with userId : {}, and name : {}", person.getUserId(),person.getName());
+        return personRepository.save(person);
+    }
+
 //    public List<Person> getSecondDegreeConnection(Long userId) {
 //        log.info("get Second Degree Connection for the User with Id: {}", userId);
 //        return personRepository.getSecondDegreeConnections(userId);

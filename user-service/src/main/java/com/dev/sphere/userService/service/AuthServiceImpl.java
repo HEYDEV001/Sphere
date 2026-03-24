@@ -1,9 +1,7 @@
 package com.dev.sphere.userService.service;
 
-import com.dev.sphere.userService.dto.LoginDto;
-import com.dev.sphere.userService.dto.LoginResponseDto;
-import com.dev.sphere.userService.dto.SignUpDto;
-import com.dev.sphere.userService.dto.UserDto;
+import com.dev.sphere.userService.clients.ConnectionsClient;
+import com.dev.sphere.userService.dto.*;
 import com.dev.sphere.userService.entity.User;
 import com.dev.sphere.userService.exception.BadRequestException;
 import com.dev.sphere.userService.exception.ResourceNotFoundException;
@@ -26,6 +24,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
+    private final ConnectionsClient connectionsClient;
 
     @Override
     public UserDto signUp(SignUpDto signUpDto) {
@@ -38,6 +37,14 @@ public class AuthServiceImpl implements AuthService {
         toBeCreatedUser.setPassword(hashPassword(signUpDto.getPassword()));
         log.info("User created {}", toBeCreatedUser);
         User savedUser = userRepository.save(toBeCreatedUser);
+
+
+        PersonDto personDto = new PersonDto();
+        personDto.setUserId(savedUser.getId());
+        personDto.setName(savedUser.getName());
+        connectionsClient.createPerson(personDto);
+        log.info("Person created in the Connection pool {}", personDto);
+
         log.info("User saved {}", savedUser);
         return modelMapper.map(savedUser, UserDto.class);
 

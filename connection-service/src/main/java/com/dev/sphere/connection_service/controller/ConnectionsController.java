@@ -41,6 +41,9 @@ public class ConnectionsController {
     @PostMapping("/reject/{userId}")
     public ResponseEntity<Boolean> rejectConnectionRequest(@PathVariable Long userId) {
         return ResponseEntity.ok(connectionsService.rejectConnectionRequest(userId));
-
+    }
+    @PostMapping("/create")
+    public ResponseEntity<Person> createPerson(@RequestBody Person person) {
+        return ResponseEntity.ok(connectionsService.createPerson(person));
     }
 }
