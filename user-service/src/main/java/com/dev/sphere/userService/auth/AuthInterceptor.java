@@ -18,9 +18,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         System.out.println("🔥 AUTH HIT: " + path);
 
-        // 🎯 Apply auth ONLY to required APIs
-        if (path.contains("/api/v1/user/profile/create") ||
-                path.contains("/api/v1/user/profile/getProfile")) {
+        if (path.contains("/profile/create") ||
+                path.contains("/profile/getProfile")) {
 
             String authHeader = request.getHeader("Authorization");
 

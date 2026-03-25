@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class ProfileRequestDto {
 
+
+    private String[] profilePicture;
     private String description;
 }

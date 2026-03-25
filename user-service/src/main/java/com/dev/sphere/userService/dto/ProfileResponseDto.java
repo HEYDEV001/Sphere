@@ -11,6 +11,7 @@ public class ProfileResponseDto {
     private String name ;
     private Long userId;
     private String email;
+    private String[] profilePicture;
     private String description;
     private List<PostDto> posts;
 }

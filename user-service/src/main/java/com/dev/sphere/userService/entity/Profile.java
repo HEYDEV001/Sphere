@@ -27,6 +27,9 @@ public class Profile {
     @Column(nullable = false)
     private Long userId;
 
+    @Column(columnDefinition = "TEXT[]")
+    private String[] profilePicture;
+
     @Column(nullable = false, unique = true)
     private String email;
 

@@ -1,6 +1,5 @@
 package com.dev.sphere.userService.auth;
 
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -18,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         // 🔒 Secure only these APIs
         registry.addInterceptor(new AuthInterceptor())
-                .addPathPatterns("/api/v1/user/profile/**");
+                .addPathPatterns("/**");
 
         // 🌍 Apply user context everywhere
         registry.addInterceptor(userInterceptor)

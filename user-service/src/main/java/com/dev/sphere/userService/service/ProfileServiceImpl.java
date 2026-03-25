@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,8 +29,10 @@ public class ProfileServiceImpl implements ProfileService {
     private final ModelMapper modelMapper;
     private final PostClient postClient;
 
+    @Transactional
     @Override
     public ProfileResponseDto createProfile(ProfileRequestDto profileRequestDto, Long userId) {
+
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with Id " + userId + " not found"));
@@ -43,6 +46,7 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setUserId(userId);
         profile.setName(user.getName());
         profile.setEmail(user.getEmail());
+        profile.setProfilePicture(profileRequestDto.getProfilePicture());
         profile.setDescription(profileRequestDto.getDescription());
         profile.setPosts(posts);
 
@@ -55,6 +59,13 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileResponseDto getProfile(Long userId) {
         log.info("Get profile by id: {}", userId);
         Profile profile = profileRepository.findByUserId(userId);
-        return modelMapper.map(profile, ProfileResponseDto.class);
+        if (profile == null) {
+            throw new RuntimeException("Profile not found");
+        }
+        ProfileResponseDto response =  modelMapper.map(profile, ProfileResponseDto.class);
+        List<PostDto> postDtoList = postClient.getAllPostsOfUser(userId);
+
+      response.setPosts(postDtoList);
+      return response;
     }
 }
