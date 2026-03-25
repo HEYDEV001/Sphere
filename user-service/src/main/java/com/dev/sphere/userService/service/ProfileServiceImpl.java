@@ -37,10 +37,6 @@ public class ProfileServiceImpl implements ProfileService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with Id " + userId + " not found"));
 
-        List<PostDto> postDtoList = postClient.getAllPostsOfUser(userId);
-        List<Post> posts = postDtoList.stream()
-                .map((post)-> modelMapper.map(post, Post.class) )
-                .toList();
 
         Profile profile = new Profile();
         profile.setUserId(userId);
@@ -48,7 +44,6 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setEmail(user.getEmail());
         profile.setProfilePicture(profileRequestDto.getProfilePicture());
         profile.setDescription(profileRequestDto.getDescription());
-        profile.setPosts(posts);
 
         profileRepository.save(profile);
 
