@@ -1,10 +1,8 @@
 package com.dev.sphere.postService.controller;
 
-import com.dev.sphere.postService.auth.UserContextHolder;
 import com.dev.sphere.postService.dto.PostDto;
 import com.dev.sphere.postService.dto.PostRequestDto;
 import com.dev.sphere.postService.service.PostService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,11 +31,24 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(postId));
     }
 
-    @PostMapping("/users/{userId}/allPosts")
-    public ResponseEntity<List<PostDto>> getAllPostsOfUser(@PathVariable Long userId) {
+    @GetMapping("/users/allMyPosts")
+    public ResponseEntity<List<PostDto>> getAllMyPosts(@RequestHeader("userId") Long userId) {
         log.info("Getting all posts by user id: {}", userId);
+        List<PostDto> allPosts = postService.getAllMyPosts(userId);
+        return ResponseEntity.ok(allPosts);
+    }
+
+    @GetMapping("/users/allPosts/{userId}")
+    public ResponseEntity<List<PostDto>> getAllPostsOfUser(@PathVariable Long userId) {
+        log.info("Getting all posts by the user with id: {}", userId);
         List<PostDto> allPosts = postService.getAllPostsOfUser(userId);
         return ResponseEntity.ok(allPosts);
+    }
+
+    @DeleteMapping("/delete/{postId}")
+    public ResponseEntity<Boolean> deletePost(@PathVariable Long postId) {
+        log.info("Deleting post by id: {}", postId);
+        return ResponseEntity.ok(postService.deletePost(postId));
     }
 
 }

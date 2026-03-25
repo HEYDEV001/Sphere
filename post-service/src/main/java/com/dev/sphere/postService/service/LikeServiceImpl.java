@@ -36,6 +36,9 @@ public class LikeServiceImpl implements LikeService {
         if (alreadyLiked)
             throw new BadRequestException("Post already liked with Id : " + postId + ", same post can not be liked again");
 
+
+        post.setLikesCount(post.getLikesCount() + 1);
+
         PostLike postLike = new PostLike();
         postLike.setPostId(postId);
         postLike.setUserId(userId);
@@ -58,12 +61,20 @@ public class LikeServiceImpl implements LikeService {
 
         log.info(" Attempting to UnLike post with id: {}", postId);
         Long userId = UserContextHolder.getCurrentUser();
+
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post not found with Id : " + postId));
+
         boolean exists = postRepository.existsById(postId);
         if (!exists) throw new ResourceNotFoundException("Post not found with Id : " + postId);
 
         boolean alreadyLiked = likesRepository.existsByUserIdAndPostId(userId, postId);
         if (!alreadyLiked)
             throw new BadRequestException("Cannot unlike post with Id : " + postId + " because it is no liked by the User with Id :" + userId);
+
+        if(post.getLikesCount() > 0) {
+            post.setLikesCount(post.getLikesCount() - 1);
+        }
 
         likesRepository.deleteByUserIdAndPostId(userId, postId);
         log.info("Unliked post with id: {}", postId);

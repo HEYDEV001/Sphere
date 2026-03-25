@@ -26,6 +26,8 @@ public class Post {
     @Column(nullable = false)
     private Long userId;
 
+    private Long likesCount;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 }

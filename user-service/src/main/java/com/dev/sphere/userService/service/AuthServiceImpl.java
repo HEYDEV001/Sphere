@@ -64,7 +64,5 @@ public class AuthServiceImpl implements AuthService {
         String accessToken = jwtService.generateAccessToken(user);
         log.info("JWT generated access token {}", accessToken);
         return new LoginResponseDto(user.getId(), accessToken);
-
-
     }
 }

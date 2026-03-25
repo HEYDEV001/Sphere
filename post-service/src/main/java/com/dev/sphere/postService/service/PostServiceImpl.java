@@ -8,13 +8,16 @@ import com.dev.sphere.postService.dto.PostRequestDto;
 import com.dev.sphere.postService.entity.Post;
 import com.dev.sphere.postService.event.PostCreatedEvent;
 import com.dev.sphere.postService.exception.ResourceNotFoundException;
+import com.dev.sphere.postService.exception.UnAuthorizedException;
 import com.dev.sphere.postService.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +36,7 @@ public class PostServiceImpl implements PostService {
         Long userId = UserContextHolder.getCurrentUser();
         Post newPost = modelMapper.map(postRequestDto, Post.class);
         newPost.setUserId(userId);
+        newPost.setLikesCount(0L);
         log.info("Create new post: {}", newPost);
         Post savedPost = postRepository.save(newPost);
         log.info("Saved post: {}", savedPost);
@@ -57,7 +61,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostDto> getAllPostsOfUser(Long userId) {
+    public List<PostDto> getAllMyPosts(Long userId) {
         log.info("Getting all posts of user: {}", userId);
         List<Post> allPosts = postRepository.getAllByUserId(userId);
         log.info("retuning all posts of user: {}", allPosts);
@@ -65,4 +69,29 @@ public class PostServiceImpl implements PostService {
                 .map((posts) -> modelMapper.map(posts, PostDto.class))
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    @Override
+    public Boolean deletePost(Long postId) {
+        log.info("Trying to delete the post with Id : {}", postId);
+        Long userId = UserContextHolder.getCurrentUser();
+        Post post = postRepository.findByIdAndUserId(postId, userId);
+        if(post==null) {
+            throw new UnAuthorizedException("Post does not belong to the current user with Id: " + userId);
+        }
+        postRepository.deleteById(postId);
+        return true;
+    }
+
+    @Override
+    public List<PostDto> getAllPostsOfUser(Long userId) {
+        log.info("Getting all posts of user with Id: {}", userId);
+        List<Post> allPosts = postRepository.getAllByUserId(userId);
+        log.info("retuning all posts of user with Id: {}", allPosts);
+        return allPosts.stream()
+                .map((posts) -> modelMapper.map(posts, PostDto.class))
+                .collect(Collectors.toList());
+    }
+
+
 }

@@ -9,4 +9,5 @@ public interface AuthService {
     UserDto signUp(SignUpDto signUpDto);
 
     LoginResponseDto login(LoginDto loginDto);
+
 }

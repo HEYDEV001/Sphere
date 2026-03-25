@@ -11,5 +11,9 @@ public interface PostService {
 
     PostDto getPostById(Long postId);
 
+    List<PostDto> getAllMyPosts(Long userId);
+
+    Boolean deletePost(Long postId);
+
     List<PostDto> getAllPostsOfUser(Long userId);
 }

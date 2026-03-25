@@ -3,6 +3,7 @@ package com.dev.sphere.postService.advice;
 
 import com.dev.sphere.postService.exception.BadRequestException;
 import com.dev.sphere.postService.exception.ResourceNotFoundException;
+import com.dev.sphere.postService.exception.UnAuthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,8 +44,8 @@ public class GlobalExceptionHandler {
     }
 
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ApiResponse<?>> handleAuthenticationException(AuthenticationException e) {
+    @ExceptionHandler(UnAuthorizedException.class)
+    public ResponseEntity<ApiResponse<?>> handleAuthenticationException(UnAuthorizedException e) {
         ApiError apiError = ApiError.builder()
                 .status(HttpStatus.UNAUTHORIZED)
                 .message(e.getMessage())
