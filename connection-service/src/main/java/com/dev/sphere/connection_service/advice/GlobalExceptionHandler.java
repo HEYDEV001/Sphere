@@ -1,9 +1,10 @@
-package com.dev.sphere.postService.advice;
+package com.dev.sphere.connection_service.advice;
 
 
-import com.dev.sphere.postService.exception.BadRequestException;
-import com.dev.sphere.postService.exception.ResourceNotFoundException;
-import com.dev.sphere.postService.exception.UnAuthorizedException;
+
+import com.dev.sphere.connection_service.exception.BadRequestException;
+import com.dev.sphere.connection_service.exception.ResourceNotFoundException;
+import com.dev.sphere.connection_service.exception.UnAuthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

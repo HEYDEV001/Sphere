@@ -1,5 +1,6 @@
 package com.dev.sphere.connection_service.controller;
 
+import com.dev.sphere.connection_service.annotation.NoWrap;
 import com.dev.sphere.connection_service.entity.Person;
 import com.dev.sphere.connection_service.service.ConnectionsService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class ConnectionsController {
 
     private final ConnectionsService connectionsService;
 
+    @NoWrap
     @GetMapping("/first-degree")
     public ResponseEntity<List<Person>> getMyFirstConnections() {
         return ResponseEntity.ok(connectionsService.getFirstDegreeConnection());
