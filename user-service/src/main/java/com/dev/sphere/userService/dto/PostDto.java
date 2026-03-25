@@ -1,4 +1,4 @@
-package com.dev.sphere.postService.dto;
+package com.dev.sphere.userService.dto;
 
 import lombok.Data;
 

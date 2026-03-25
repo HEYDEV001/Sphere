@@ -1,11 +1,13 @@
-package com.dev.sphere.postService.entity;
+package com.dev.sphere.userService.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.context.annotation.Primary;
 
 import java.time.LocalDateTime;
 
@@ -33,4 +35,9 @@ public class Post {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name ="profile_id",nullable = false)
+    @JsonIgnore
+    private Profile profile;
 }

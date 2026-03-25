@@ -1,36 +1,38 @@
-package com.dev.sphere.postService.entity;
+package com.dev.sphere.userService.entity;
 
+import com.dev.sphere.userService.dto.PostDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "posts")
-public class Post {
+@Table(name = "profiles")
+public class Profile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-    private String content;
+    private String name ;
 
     @Column(nullable = false)
     private Long userId;
 
-    @Column(columnDefinition = "TEXT[]")
-    private String[] images;
+    @Column(nullable = false, unique = true)
+    private String email;
 
-    private Long likesCount;
+    private String description;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    @OneToMany(mappedBy = "profile")
+    private List<Post> posts;
+
 }

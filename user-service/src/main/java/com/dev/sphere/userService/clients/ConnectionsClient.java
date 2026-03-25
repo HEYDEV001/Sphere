@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "connection-service",path = "/connections")
 public interface ConnectionsClient {
-
     @PostMapping("/core/create")
     ResponseEntity<PersonDto> createPerson(@RequestBody PersonDto personDto);
 }

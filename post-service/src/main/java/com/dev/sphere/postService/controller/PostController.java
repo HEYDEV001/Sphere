@@ -1,5 +1,6 @@
 package com.dev.sphere.postService.controller;
 
+import com.dev.sphere.postService.annotation.NoWrap;
 import com.dev.sphere.postService.dto.PostDto;
 import com.dev.sphere.postService.dto.PostRequestDto;
 import com.dev.sphere.postService.service.PostService;
@@ -50,5 +51,15 @@ public class PostController {
         log.info("Deleting post by id: {}", postId);
         return ResponseEntity.ok(postService.deletePost(postId));
     }
+
+
+    @NoWrap
+    @GetMapping("/users/userPosts/profilePost/{userId}")
+    public List<PostDto> getAllPostsForUser(@PathVariable Long userId) {
+        log.info("Getting all posts for the user with id: {}", userId);
+        List<PostDto> allPosts = postService.getAllPostsOfUser(userId);
+        return allPosts;
+    }
+
 
 }
