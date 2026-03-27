@@ -5,6 +5,7 @@ import com.dev.sphere.userService.clients.PostClient;
 import com.dev.sphere.userService.dto.PostDto;
 import com.dev.sphere.userService.dto.ProfileRequestDto;
 import com.dev.sphere.userService.dto.ProfileResponseDto;
+import com.dev.sphere.userService.dto.UpdateProfileRequestDto;
 import com.dev.sphere.userService.entity.Post;
 import com.dev.sphere.userService.entity.Profile;
 import com.dev.sphere.userService.entity.User;
@@ -62,5 +63,19 @@ public class ProfileServiceImpl implements ProfileService {
 
       response.setPosts(postDtoList);
       return response;
+    }
+
+    @Transactional
+    @Override
+    public ProfileResponseDto updateProfileInfo(UpdateProfileRequestDto updateProfileRequestdto,Long userId) {
+        Profile profile = profileRepository.findByUserId(userId);
+        if (profile == null) {
+            throw new RuntimeException("Profile not found");
+        }
+        profile.setName(updateProfileRequestdto.getName());
+        profile.setProfilePicture(updateProfileRequestdto.getProfilePicture());
+        profile.setDescription(updateProfileRequestdto.getDescription());
+        profileRepository.save(profile);
+        return modelMapper.map(profile, ProfileResponseDto.class);
     }
 }
