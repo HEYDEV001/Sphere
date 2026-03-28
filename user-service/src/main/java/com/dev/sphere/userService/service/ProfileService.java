@@ -1,9 +1,8 @@
 package com.dev.sphere.userService.service;
 
-import com.dev.sphere.userService.dto.ProfileRequestDto;
-import com.dev.sphere.userService.dto.ProfileResponseDto;
-import com.dev.sphere.userService.dto.UpdateProfileRequestDto;
-import com.dev.sphere.userService.dto.UpdatedProfileResponseDto;
+import com.dev.sphere.userService.dto.*;
+
+import java.util.List;
 
 public interface ProfileService {
     ProfileResponseDto createProfile(ProfileRequestDto profileRequestDto, Long userId);
@@ -11,4 +10,6 @@ public interface ProfileService {
     ProfileResponseDto getProfile(Long userId);
 
     UpdatedProfileResponseDto updateProfileInfo(UpdateProfileRequestDto updateProfileRequestdto, Long userId);
+
+    List<UpdatedProfileResponseDto> searchProfile(SearchRequestDto searchRequestDto);
 }

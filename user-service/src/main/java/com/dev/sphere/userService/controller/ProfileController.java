@@ -1,16 +1,15 @@
 package com.dev.sphere.userService.controller;
 
 import com.dev.sphere.userService.auth.UserContextHolder;
-import com.dev.sphere.userService.dto.ProfileRequestDto;
-import com.dev.sphere.userService.dto.ProfileResponseDto;
-import com.dev.sphere.userService.dto.UpdateProfileRequestDto;
-import com.dev.sphere.userService.dto.UpdatedProfileResponseDto;
+import com.dev.sphere.userService.dto.*;
 import com.dev.sphere.userService.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/profile")
@@ -38,4 +37,11 @@ public class ProfileController {
         log.info("updating the profile for user: {}",userId);
         return ResponseEntity.ok(profileService.updateProfileInfo(updateProfileRequestdto, userId));
     }
+
+    @PostMapping("/search")
+    public ResponseEntity<List<UpdatedProfileResponseDto>> searchProfile(@RequestBody SearchRequestDto searchRequestDto){
+        log.info("searching the profile for users with name similar to : {}",searchRequestDto);
+        return ResponseEntity.ok(profileService.searchProfile(searchRequestDto));
+    }
+
 }

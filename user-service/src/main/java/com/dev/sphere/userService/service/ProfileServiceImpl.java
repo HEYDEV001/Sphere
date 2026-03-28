@@ -27,6 +27,17 @@ public class ProfileServiceImpl implements ProfileService {
     private final ModelMapper modelMapper;
     private final PostClient postClient;
 
+    @Override
+    public List<UpdatedProfileResponseDto> searchProfile(SearchRequestDto searchRequestDto) {
+        String name  = searchRequestDto.getName();
+        List<Profile> profiles = profileRepository.findByNameContainingIgnoreCase(name);
+        return profiles.stream()
+                .map((profile)-> modelMapper.map(profile, UpdatedProfileResponseDto.class))
+                .toList();
+    }
+
+
+
     @Transactional
     @Override
     public ProfileResponseDto createProfile(ProfileRequestDto profileRequestDto, Long userId) {
