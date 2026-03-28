@@ -39,7 +39,7 @@ public class ProfileController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<UpdatedProfileResponseDto>> searchProfile(@RequestBody SearchRequestDto searchRequestDto){
+    public ResponseEntity<List<SearchResponseDto>> searchProfile(@RequestBody SearchRequestDto searchRequestDto){
         log.info("searching the profile for users with name similar to : {}",searchRequestDto);
         return ResponseEntity.ok(profileService.searchProfile(searchRequestDto));
     }

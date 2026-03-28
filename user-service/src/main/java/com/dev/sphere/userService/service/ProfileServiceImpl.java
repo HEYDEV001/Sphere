@@ -28,11 +28,11 @@ public class ProfileServiceImpl implements ProfileService {
     private final PostClient postClient;
 
     @Override
-    public List<UpdatedProfileResponseDto> searchProfile(SearchRequestDto searchRequestDto) {
+    public List<SearchResponseDto> searchProfile(SearchRequestDto searchRequestDto) {
         String name  = searchRequestDto.getName();
         List<Profile> profiles = profileRepository.findByNameContainingIgnoreCase(name);
         return profiles.stream()
-                .map((profile)-> modelMapper.map(profile, UpdatedProfileResponseDto.class))
+                .map((profile)-> modelMapper.map(profile, SearchResponseDto.class))
                 .toList();
     }
 
