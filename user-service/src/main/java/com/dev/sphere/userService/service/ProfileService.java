@@ -5,11 +5,11 @@ import com.dev.sphere.userService.dto.*;
 import java.util.List;
 
 public interface ProfileService {
-    ProfileResponseDto createProfile(ProfileRequestDto profileRequestDto, Long userId);
+    ProfileResponseDto createProfile(ProfileRequestDto profileRequestDto);
 
     ProfileResponseDto getProfile(Long userId);
 
-    UpdatedProfileResponseDto updateProfileInfo(UpdateProfileRequestDto updateProfileRequestdto, Long userId);
+    UpdatedProfileResponseDto updateProfileInfo(UpdateProfileRequestDto updateProfileRequestdto);
 
     List<SearchResponseDto> searchProfile(SearchRequestDto searchRequestDto);
 }

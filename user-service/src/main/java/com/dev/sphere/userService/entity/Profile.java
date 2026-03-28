@@ -1,6 +1,5 @@
 package com.dev.sphere.userService.entity;
 
-import com.dev.sphere.userService.dto.PostDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
