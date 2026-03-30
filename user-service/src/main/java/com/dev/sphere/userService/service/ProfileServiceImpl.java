@@ -69,13 +69,13 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ProfileResponseDto getProfile(Long userId) {
+    public GetProfileResponseDto getProfile(Long userId) {
         log.info("Get profile by id: {}", userId);
         Profile profile = profileRepository.findByUserId(userId);
         if (profile == null) {
             throw new RuntimeException("Profile not found");
         }
-        ProfileResponseDto response =  modelMapper.map(profile, ProfileResponseDto.class);
+        GetProfileResponseDto response =  modelMapper.map(profile, GetProfileResponseDto.class);
         List<PostDto> postDtoList = postClient.getAllPostsOfUser(userId);
 
       response.setPosts(postDtoList);

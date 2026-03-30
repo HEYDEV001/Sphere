@@ -26,7 +26,7 @@ public class ProfileController {
     }
 
     @PostMapping("/getProfile/{userId}")
-    public ResponseEntity<ProfileResponseDto> getProfile(@PathVariable Long userId) {
+    public ResponseEntity<GetProfileResponseDto> getProfile(@PathVariable Long userId) {
         log.info("getting the profile for user: {}",userId);
         return ResponseEntity.ok(profileService.getProfile(userId));
     }

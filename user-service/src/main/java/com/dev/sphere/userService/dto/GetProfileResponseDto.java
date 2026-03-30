@@ -2,13 +2,19 @@ package com.dev.sphere.userService.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
-public class ProfileRequestDto {
+public class GetProfileResponseDto {
 
-
+    private Long id;
+    private String name ;
+    private Long userId;
+    private String email;
     private String[] profilePicture;
     private String description;
     private String[] education;
     private String[] skills;
     private String[] experience;
+    private List<PostDto> posts;
 }

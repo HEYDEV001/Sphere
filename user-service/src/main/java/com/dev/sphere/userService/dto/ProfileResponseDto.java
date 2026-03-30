@@ -16,5 +16,4 @@ public class ProfileResponseDto {
     private String[] education;
     private String[] skills;
     private String[] experience;
-    private List<PostDto> posts;
 }

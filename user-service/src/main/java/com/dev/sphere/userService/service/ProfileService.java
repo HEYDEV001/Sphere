@@ -7,7 +7,7 @@ import java.util.List;
 public interface ProfileService {
     ProfileResponseDto createProfile(ProfileRequestDto profileRequestDto);
 
-    ProfileResponseDto getProfile(Long userId);
+    GetProfileResponseDto getProfile(Long userId);
 
     UpdatedProfileResponseDto updateProfileInfo(UpdateProfileRequestDto updateProfileRequestdto);
 
