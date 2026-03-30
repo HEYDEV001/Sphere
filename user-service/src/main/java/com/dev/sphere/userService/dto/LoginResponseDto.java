@@ -9,6 +9,5 @@ import lombok.NoArgsConstructor;
 @Data
 public class LoginResponseDto {
 
-    private Long id;
     private String accessToken;
 }

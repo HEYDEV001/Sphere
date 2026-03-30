@@ -8,6 +8,7 @@ import com.dev.sphere.userService.dto.UserDto;
 public interface AuthService {
     UserDto signUp(SignUpDto signUpDto);
 
-    LoginResponseDto login(LoginDto loginDto);
+    String[] login(LoginDto loginDto);
 
+    String refresh(String refreshToken);
 }

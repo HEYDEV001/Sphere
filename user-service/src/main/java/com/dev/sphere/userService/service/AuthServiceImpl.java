@@ -51,7 +51,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public LoginResponseDto login(LoginDto loginDto) {
+    public String[] login(LoginDto loginDto) {
         log.info("logging in a user with the following details: {}", loginDto);
         User user = userRepository.findByEmail(loginDto.getEmail())
                 .orElseThrow(() -> new ResourceNotFoundException("User with email " + loginDto.getEmail() + " not found"));
@@ -61,8 +61,18 @@ public class AuthServiceImpl implements AuthService {
             throw new BadRequestException("Wrong password");
         }
 
-        String accessToken = jwtService.generateAccessToken(user);
-        log.info("JWT generated access token {}", accessToken);
-        return new LoginResponseDto(user.getId(), accessToken);
+        String[] arr = new String[2];
+        arr[0] = jwtService.generateAccessToken(user);
+        arr[1] = jwtService.generateRefreshToken(user);
+        log.info("JWT generated access token {}", arr[0]);
+        return arr;
+    }
+
+    public String refresh(String refreshToken){
+        long id = jwtService.getIdFromTheToken(refreshToken);
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("User does not exist with Id : " + id )
+        );
+        return jwtService.generateAccessToken(user);
     }
 }

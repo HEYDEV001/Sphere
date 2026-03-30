@@ -4,13 +4,9 @@ import com.dev.sphere.userService.service.JwtService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 
@@ -29,20 +25,16 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         String path = request.getRequestURI();
 
-
         if (path.contains("/profile/create") ||
                 path.contains("/profile/getProfile")) {
 
             String authHeader = request.getHeader("Authorization");
-
-
 
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
                 response.setStatus(401);
                 response.getWriter().write("Unauthorized");
                 return false;
             }
-
 
             final String token = authHeader.split("Bearer ")[1];
 

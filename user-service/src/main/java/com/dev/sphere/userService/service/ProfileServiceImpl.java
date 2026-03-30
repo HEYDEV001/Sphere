@@ -1,9 +1,7 @@
 package com.dev.sphere.userService.service;
 
-import com.dev.sphere.userService.auth.UserContextHolder;
 import com.dev.sphere.userService.clients.PostClient;
 import com.dev.sphere.userService.dto.*;
-import com.dev.sphere.userService.entity.Post;
 import com.dev.sphere.userService.entity.Profile;
 import com.dev.sphere.userService.entity.User;
 import com.dev.sphere.userService.exception.ResourceNotFoundException;
@@ -40,8 +38,6 @@ public class ProfileServiceImpl implements ProfileService {
                 .toList();
     }
 
-
-
     @Transactional
     @Override
     public ProfileResponseDto createProfile(ProfileRequestDto profileRequestDto) {
@@ -56,7 +52,6 @@ public class ProfileServiceImpl implements ProfileService {
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User with Id " + userId + " not found"));
-
 
         Profile profile = new Profile();
         profile.setUserId(userId);

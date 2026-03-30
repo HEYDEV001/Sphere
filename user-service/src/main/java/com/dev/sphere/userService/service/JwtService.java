@@ -32,14 +32,14 @@ public class JwtService {
                 .compact();
     }
 
-//    public String generateRefreshToken(User user) {
-//        return Jwts.builder()
-//                .subject(user.getId().toString())
-//                .issuedAt(new Date())
-//                .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30 * 6))
-//                .signWith(getSecretKey())
-//                .compact();
-//    }
+    public String generateRefreshToken(User user) {
+        return Jwts.builder()
+                .subject(user.getId().toString())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30 * 6))
+                .signWith(getSecretKey())
+                .compact();
+    }
 
     public Long getIdFromTheToken(String token) {
         Claims claims = Jwts.parser()
