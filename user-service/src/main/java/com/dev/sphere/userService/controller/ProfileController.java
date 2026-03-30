@@ -31,7 +31,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.getProfile(userId));
     }
 
-    @PutMapping("/update")
+    @PatchMapping("/update")
     public ResponseEntity<UpdatedProfileResponseDto> updateProfileInfo( @RequestBody UpdateProfileRequestDto updateProfileRequestdto, HttpServletRequest httpServletRequest){
         log.info("updating the profile for user: {}",httpServletRequest);
         return ResponseEntity.ok(profileService.updateProfileInfo(updateProfileRequestdto));

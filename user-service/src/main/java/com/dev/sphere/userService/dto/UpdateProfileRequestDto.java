@@ -12,6 +12,9 @@ public class UpdateProfileRequestDto {
     private String name;
     private String[] profilePicture;
     private String description;
+    private String[] education;
+    private String[] skills;
+    private String[] experience;
 
 
 }

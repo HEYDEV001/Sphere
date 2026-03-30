@@ -29,6 +29,7 @@ public class ProfileServiceImpl implements ProfileService {
     private final HttpServletRequest httpServletRequest;
     private final JwtService jwtService;
 
+
     @Override
     public List<SearchResponseDto> searchProfile(SearchRequestDto searchRequestDto) {
         String name  = searchRequestDto.getName();
@@ -99,6 +100,9 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setName(updateProfileRequestdto.getName());
         profile.setProfilePicture(updateProfileRequestdto.getProfilePicture());
         profile.setDescription(updateProfileRequestdto.getDescription());
+        profile.setExperience(updateProfileRequestdto.getExperience());
+        profile.setSkills(updateProfileRequestdto.getSkills());
+        profile.setEducation(updateProfileRequestdto.getEducation());
         profileRepository.save(profile);
         return modelMapper.map(profile, UpdatedProfileResponseDto.class);
     }
