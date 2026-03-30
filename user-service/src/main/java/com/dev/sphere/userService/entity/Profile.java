@@ -34,6 +34,16 @@ public class Profile {
 
     private String description;
 
+    @Column(columnDefinition = "TEXT[]")
+    private String[] education;
+
+    @Column(columnDefinition = "TEXT[]")
+    private String[] skills;
+
+    @Column(columnDefinition = "TEXT[]")
+    private String[] experience;
+
+
     @OneToMany(mappedBy = "profile")
     private List<Post> posts;
 

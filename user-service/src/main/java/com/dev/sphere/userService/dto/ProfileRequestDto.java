@@ -7,5 +7,9 @@ public class ProfileRequestDto {
 
 
     private String[] profilePicture;
+
     private String description;
+    private String[] education;
+    private String[] skills;
+    private String[] experience;
 }

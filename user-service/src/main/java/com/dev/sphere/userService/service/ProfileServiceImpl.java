@@ -57,6 +57,9 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setUserId(userId);
         profile.setName(user.getName());
         profile.setEmail(user.getEmail());
+        profile.setEducation(profileRequestDto.getEducation());
+        profile.setSkills(profileRequestDto.getSkills());
+        profile.setExperience(profileRequestDto.getExperience());
         profile.setProfilePicture(profileRequestDto.getProfilePicture());
         profile.setDescription(profileRequestDto.getDescription());
 
