@@ -4,7 +4,6 @@ import com.dev.sphere.connection_service.annotation.NoWrap;
 import com.dev.sphere.connection_service.entity.Person;
 import com.dev.sphere.connection_service.service.ConnectionsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +16,15 @@ public class ConnectionsController {
 
     private final ConnectionsService connectionsService;
 
-    @NoWrap
+    @NoWrap 
     @GetMapping("/first-degree")
     public ResponseEntity<List<Person>> getMyFirstConnections() {
         return ResponseEntity.ok(connectionsService.getFirstDegreeConnection());
+    }
+    
+    @GetMapping("/you-may-know")
+    public ResponseEntity<List<Person>> getYouMayKnowConnections() {
+        return ResponseEntity.ok(connectionsService.getYouMayKnowConnections());
     }
 
     @PostMapping("/request/{userId}")

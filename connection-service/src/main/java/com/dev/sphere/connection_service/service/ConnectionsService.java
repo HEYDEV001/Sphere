@@ -102,4 +102,9 @@ public class ConnectionsService {
         return personRepository.save(person);
     }
 
+    public List<Person> getYouMayKnowConnections() {
+        Long userId = UserContextHolder.getCurrentUser();
+        log.info("getting Second Degree Connection for the User with Id: {}", userId);
+        return personRepository.getSecondDegreeConnections(userId);
+    }
 }
