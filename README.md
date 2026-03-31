@@ -63,10 +63,10 @@ Sphere/
 - **JWT-based Authentication** — Stateless token authentication with a custom filter at the gateway level. All protected routes validate the token before forwarding requests downstream.
 - **API Gateway** — Single entry point for all client requests. Routes traffic to the correct service, strips path prefixes, and enforces authentication via a custom `AbstractGatewayFilterFactory`.
 - **Service Discovery** — All microservices register with Netflix Eureka. The gateway performs client-side load balancing using `lb://` URIs.
-- **Asynchronous Event-Driven Notifications** — Apache Kafka decouples event producers (user-service, post-service) from the notification-service consumer. Events like follows, likes, and comments trigger real-time notifications without direct service coupling.
+- **Asynchronous Event-Driven Notifications** — Apache Kafka decouples event producers (user-service, post-service) from the notification-service consumer. Events like connection request and likes trigger real-time notifications without direct service coupling.
 - **Graph-based Connection System** - Neo4j powers a bidirectional connection graph, enabling efficient traversal of user relationships. Connections are established through request-accept flows, allowing fast queries for direct and mutual connections that would be expensive in a relational database.
 - **Inter-service Communication via Feign Client** — Services communicate synchronously using declarative Feign clients, enabling clean, typed HTTP calls between microservices without boilerplate `RestTemplate` code.
-- **Containerized Deployment** — All services and infrastructure (Kafka, Zookeeper, PostgreSQL, Neo4j, Eureka) are containerized and orchestrated with Docker Compose for consistent local development and deployment.
+- **Containerized Deployment** — All services and infrastructure (Kafka, PostgreSQL, Neo4j, Eureka) are containerized and orchestrated with Docker Compose for consistent local development and deployment.
 
 ---
 
