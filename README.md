@@ -81,9 +81,9 @@ Sphere/
 | Inter-service Calls | OpenFeign (Spring Cloud OpenFeign) |
 | Async Messaging | Apache Kafka |
 | Auth | Custom JWT filter (jjwt) |
-| Databases | PostgreSQL · Neo4j |
-| ORM | Spring Data JPA · Spring Data Neo4j |
-| Containerization | Docker · Docker Compose |
+| Databases | PostgreSQL , Neo4j |
+| ORM | Spring Data JPA , Spring Data Neo4j |
+| Containerization | Docker , Docker Compose |
 | Build Tool | Maven |
 
 ---
