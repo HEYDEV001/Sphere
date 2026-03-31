@@ -183,9 +183,6 @@ Authorization: Bearer <your_jwt_token>
 
 - [ ] Password reset flow (email-based token)
 - [ ] Direct messaging service (WebSocket + Kafka)
-- [ ] Full-text search (PostgreSQL FTS / Elasticsearch)
-- [ ] Post reactions and comments
-- [ ] "People you may know" recommendations (Neo4j 2-hop traversal)
 - [ ] CI/CD pipeline (GitHub Actions)
 - [ ] Centralized configuration (Spring Cloud Config)
 - [ ] Distributed tracing (Micrometer + Zipkin)
