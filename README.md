@@ -143,11 +143,6 @@ Sphere/
 git clone https://github.com/HEYDEV001/Sphere.git
 cd Sphere
 
-# Set environment variables
-export JWT_SECRET=your_secret_key_here
-export MAIL_USERNAME=youremail@gmail.com
-export MAIL_PASSWORD=your_app_password
-
 # Start all infrastructure and services
 docker-compose up --build
 ```
