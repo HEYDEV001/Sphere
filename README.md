@@ -163,17 +163,17 @@ docker-compose up --build
 
 ```bash
 # Register
-POST http://localhost:8080/api/v1/user/register
+POST http://localhost:8080/api/v1/user/auth/signup
 
 # Login
-POST http://localhost:8080/api/v1/user/login
+POST http://localhost:8080/api/v1/user/auth/login
 
 # Create a post (authenticated)
-POST http://localhost:8080/api/v1/posts
+POST http://localhost:8080/api/v1/posts/core
 Authorization: Bearer <your_jwt_token>
 
-# Follow a user (authenticated)
-POST http://localhost:8080/api/v1/connections/follow/{userId}
+# Send connection-request a user (authenticated)
+POST http://localhost:8080/api/v1/connections/core/request/27
 Authorization: Bearer <your_jwt_token>
 ```
 
