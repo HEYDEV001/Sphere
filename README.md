@@ -39,7 +39,7 @@ Sphere/
 ├── api-gateway/                  # Spring Cloud Gateway — routing, JWT filter
 ├── discovery-server/             # Netflix Eureka — service registry
 ├── user-service/                 # User auth, profiles, registration
-├── post-service/                 # Post CRUD, feed
+├── post-service/                 # Post CRUD, Post metric (likes) 
 ├── connection-service/           # Follow graph, Neo4j
 ├── notification-service/         # Kafka consumer, event-driven notifications
 └── docker-compose.yml            # Containerized local deployment
@@ -52,7 +52,7 @@ Sphere/
 | `api-gateway` | JWT validation, request routing, load balancing | — |
 | `discovery-server` | Service registration and discovery (Eureka) | — |
 | `user-service` | Registration, login, JWT issuance, user profiles | PostgreSQL |
-| `post-service` | Post creation, retrieval, feed | PostgreSQL |
+| `post-service` | Post creation, retrieval, deletion, Post metric (like and unlike)  | PostgreSQL |
 | `connection-service` | Follow/unfollow, connection graph traversal | Neo4j |
 | `notification-service` | Consumes Kafka events, sends notifications | PostgreSQL |
 
