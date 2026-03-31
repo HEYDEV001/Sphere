@@ -92,9 +92,10 @@ Sphere/
 
 ### 1. Setting Up Apache Kafka — Local and In-Code
 
-**Challenge:** Kafka was one of the most difficult parts of this project. Setting it up locally required configuring Zookeeper, the Kafka broker, topics, and producer/consumer properties — none of which has a simple plug-and-play setup. Beyond the local environment, integrating Kafka into Spring Boot involved understanding serialization strategies, consumer group behavior, deserialization of custom event objects across services, and handling `JsonDeserializer` trusted package configuration.
+**Challenge:** Kafka was one of the most challenging parts of this project. Setting it up locally required configuring Kafka in KRaft mode (without Zookeeper), which involved managing broker and controller roles, cluster IDs, and log directories manually — unlike traditional setups that rely on Zookeeper.
+Beyond the local environment, integrating Kafka into Spring Boot required a solid understanding of serialization strategies, consumer group behavior, and reliable message processing. A key challenge was handling deserialization of custom event objects across services, especially configuring JsonDeserializer with trusted packages to ensure secure and correct message conversion.
 
-**How I solved it:** I read through the official Apache Kafka documentation and the Spring Kafka reference guide extensively. I debugged serialization mismatches, resolved `ClassNotFoundException` issues caused by package path differences between producer and consumer services, and settled on a consistent `application.yml`-based configuration approach across all services — eliminating manual `@Bean` configs in favor of Spring Boot's auto-configuration.
+**How I solved it:**  I studied Apache Kafka and Spring for Apache Kafka documentation to implement Kafka in KRaft mode, handling broker and metadata configuration without Zookeeper. Resolved serialization mismatches and ClassNotFoundException issues by standardizing event models across services. Simplified setup using a consistent application.yml configuration, leveraging Spring Boot auto-configuration over manual @Bean definitions.
 
 **Scalability improvement:** By using Kafka for all asynchronous communication, the notification-service is fully decoupled from all producers. Adding a new event type (e.g. comment notifications, connection request alerts) requires only a new Kafka topic and a new `@KafkaListener` — no changes to any producer service.
 
