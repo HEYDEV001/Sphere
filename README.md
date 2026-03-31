@@ -154,10 +154,10 @@ docker-compose up --build
 |---|---|
 | API Gateway | 8080 |
 | Discovery Server (Eureka UI) | 8761 |
-| User Service | 8081 |
-| Post Service | 8082 |
-| Connection Service | 8083 |
-| Notification Service | 8084 |
+| User Service | 9020 |
+| Post Service | 9010 |
+| Connection Service | 9030 |
+| Notification Service | 9040 |
 
 ### Example API Calls
 
