@@ -196,4 +196,4 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-> Built in 12 days. Every service, every Kafka topic, every Feign client — from scratch.
+> Built in 7 days. Every service, every Kafka topic, every Feign client — from scratch.
