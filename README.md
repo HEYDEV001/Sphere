@@ -53,7 +53,7 @@ Sphere/
 | `discovery-server` | Service registration and discovery (Eureka) | — |
 | `user-service` | Registration, login, JWT issuance, user profiles | PostgreSQL |
 | `post-service` | Post creation, retrieval, deletion, Post metric (like and unlike)  | PostgreSQL |
-| `connection-service` | Follow/unfollow, connection graph traversal | Neo4j |
+| `connection-service` | Send/accept Connection Request, connection graph traversal | Neo4j |
 | `notification-service` | Consumes Kafka events, sends notifications | PostgreSQL |
 
 ---
