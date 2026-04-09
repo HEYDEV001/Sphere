@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/profile")
@@ -32,9 +33,9 @@ public class ProfileController {
     }
 
     @PatchMapping("/update")
-    public ResponseEntity<UpdatedProfileResponseDto> updateProfileInfo( @RequestBody UpdateProfileRequestDto updateProfileRequestdto, HttpServletRequest httpServletRequest){
+    public ResponseEntity<UpdatedProfileResponseDto> updateProfileInfo(@RequestBody Map<String,Object> updates, HttpServletRequest httpServletRequest){
         log.info("updating the profile for user: {}",httpServletRequest);
-        return ResponseEntity.ok(profileService.updateProfileInfo(updateProfileRequestdto));
+        return ResponseEntity.ok(profileService.updateProfileInfo(updates));
     }
 
     @PostMapping("/search")

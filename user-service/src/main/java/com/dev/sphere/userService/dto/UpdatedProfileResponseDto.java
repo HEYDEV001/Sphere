@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @AllArgsConstructor
@@ -14,9 +16,9 @@ public class UpdatedProfileResponseDto {
     private String name ;
     private Long userId;
     private String email;
-    private String[] profilePicture;
+    private String profilePicture;
     private String description;
-    private String[] education;
-    private String[] skills;
-    private String[] experience;
+    private List<String> education;
+    private List<String> skills;
+    private List<String> experience;
 }

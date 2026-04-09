@@ -26,22 +26,22 @@ public class Profile {
     @Column(nullable = false)
     private Long userId;
 
-    @Column(columnDefinition = "TEXT[]")
-    private String[] profilePicture;
+    private String profilePicture;
 
     @Column(nullable = false, unique = true)
     private String email;
 
     private String description;
 
-    @Column(columnDefinition = "TEXT[]")
-    private String[] education;
+    @ElementCollection
+    private List<String> education;
 
-    @Column(columnDefinition = "TEXT[]")
-    private String[] skills;
+    @ElementCollection
 
-    @Column(columnDefinition = "TEXT[]")
-    private String[] experience;
+    private List<String> skills;
+
+    @ElementCollection
+    private List<String> experience;
 
 
     @OneToMany(mappedBy = "profile")

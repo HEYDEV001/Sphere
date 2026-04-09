@@ -11,10 +11,10 @@ public class GetProfileResponseDto {
     private String name ;
     private Long userId;
     private String email;
-    private String[] profilePicture;
+    private String profilePicture;
     private String description;
-    private String[] education;
-    private String[] skills;
-    private String[] experience;
+    private List<String> education;
+    private List<String> skills;
+    private List<String> experience;
     private List<PostDto> posts;
 }

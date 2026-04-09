@@ -14,8 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -85,7 +88,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Transactional
     @Override
-    public UpdatedProfileResponseDto updateProfileInfo(UpdateProfileRequestDto updateProfileRequestdto) {
+    public UpdatedProfileResponseDto updateProfileInfo(Map<String, Object> updates) {
         String header =  httpServletRequest.getHeader("Authorization");
         if(header == null || !header.startsWith("Bearer ")) {
             throw new JwtException("Invalid token");
@@ -97,12 +100,20 @@ public class ProfileServiceImpl implements ProfileService {
         if (profile == null) {
             throw new RuntimeException("Profile not found");
         }
-        profile.setName(updateProfileRequestdto.getName());
-        profile.setProfilePicture(updateProfileRequestdto.getProfilePicture());
-        profile.setDescription(updateProfileRequestdto.getDescription());
-        profile.setExperience(updateProfileRequestdto.getExperience());
-        profile.setSkills(updateProfileRequestdto.getSkills());
-        profile.setEducation(updateProfileRequestdto.getEducation());
+
+        updates.forEach((field, value) -> {
+            Field fieldToBeUpdated = ReflectionUtils.findField(Profile.class, field);
+            fieldToBeUpdated.setAccessible(true);
+            ReflectionUtils.setField(fieldToBeUpdated, profile, value);
+        });
+
+
+//        profile.setName(updateProfileRequestdto.getName());
+//        profile.setProfilePicture(updateProfileRequestdto.getProfilePicture());
+//        profile.setDescription(updateProfileRequestdto.getDescription());
+//        profile.setExperience(updateProfileRequestdto.getExperience());
+//        profile.setSkills(updateProfileRequestdto.getSkills());
+//        profile.setEducation(updateProfileRequestdto.getEducation());
         profileRepository.save(profile);
         return modelMapper.map(profile, UpdatedProfileResponseDto.class);
     }
