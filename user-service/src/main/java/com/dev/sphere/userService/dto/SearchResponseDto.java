@@ -13,6 +13,6 @@ public class SearchResponseDto {
     private String name ;
     private Long userId;
     private String email;
-    private String[] profilePicture;
+    private String profilePicture;
     private String description;
 }
