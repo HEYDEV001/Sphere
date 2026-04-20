@@ -24,6 +24,19 @@ services:
       KAFKA_NUM_PARTITIONS: 3
 
 
+  kafbat-ui:
+    container_name: kafbat-ui
+    image: ghcr.io/kafbat/kafka-ui:latest
+    ports:
+      - "8090:8080"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_KSQLDBSERVERS: http://ksqldb0:8088
+
+
 
   notification-db:
     image: postgres:16
@@ -33,19 +46,77 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=data@2601
     healthcheck:
-
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
-
       interval: 5s
-
       timeout: 5s
-
       retries: 5
-
     volumes:
       - notification-db-data:/var/lib/postgresql/data
     networks:
       - sphere-network
+
+
+  post-db:
+    image: postgres:16
+    container_name: post-db
+    environment:
+      - POSTGRES_DB=Sphere-postDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=data@2601
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - post-db-data:/var/lib/postgresql/data
+    networks:
+      - sphere-network
+
+
+
+  user-db:
+    image: postgres:16
+    container_name: user-db
+    environment:
+      - POSTGRES_DB=Sphere-userDB
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=data@2601
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    networks:
+      - sphere-network
+
+
+
+  connection-db:
+    image: neo4j
+    container_name: connection-db
+    environment:
+      - NEO4J_AUTH=neo4j/data@2601
+      - NEO4J_server_memory_heap_initial__size=128m
+      - NEO4J_server_memory_heap_max__size=256m
+      - NEO4J_server_memory_pagecache_size=128m
+    ports:
+      - "7474:7474"  # Http ports
+      - "7687:7687"  # Bolt ports
+    healthcheck:
+      test: [ "CMD-SHELL", "cypher-shell -u neo4j -p data@2601 'RETURN 1' || exit 1" ]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 40s
+    volumes:
+      - connection-db-data:/data
+    networks:
+      - sphere-network
+
+
 
 
   discovery-server:
@@ -72,6 +143,56 @@ services:
         condition: service_healthy
 
 
+  connection-service:
+    image: heydev001/sphere/connection-service:latest
+    container_name: connection-service
+    networks:
+      - sphere-network
+    depends_on:
+      discovery-server:
+        condition: service_started
+      kafka:
+        condition: service_started
+      connection-db:
+        condition: service_healthy
+
+
+  post-service:
+    image: heydev001/sphere/post-service:latest
+    container_name: post-service
+    networks:
+      - sphere-network
+    depends_on:
+      discovery-server:
+        condition: service_started
+      kafka:
+        condition: service_started
+      post-db:
+        condition: service_healthy
+
+
+
+  user-service:
+    image: heydev001/sphere/user-service:latest
+    container_name: user-service
+    networks:
+      - sphere-network
+    depends_on:
+      discovery-server:
+        condition: service_started
+      user-db:
+        condition: service_healthy
+
+
+  api-gateway:
+    image: heydev001/sphere/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    networks:
+      - sphere-network
+    depends_on:
+      - discovery-server
 
 networks:
   sphere-network:
@@ -80,3 +201,6 @@ networks:
 volumes:
   kafka-data:
   notification-db-data:
+  post-db-data:
+  user-db-data:
+  connection-db-data:
