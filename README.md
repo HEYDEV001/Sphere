@@ -194,6 +194,5 @@ Authorization: Bearer <your_jwt_token>
 **HEYDEV001**
 [github.com/HEYDEV001](https://github.com/HEYDEV001)
 
----
 
-> Built in 7 days. Every service, every Kafka topic, every Feign client — from scratch.
+
