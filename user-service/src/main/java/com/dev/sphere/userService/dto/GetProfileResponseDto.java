@@ -1,11 +1,14 @@
 package com.dev.sphere.userService.dto;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
-public class GetProfileResponseDto {
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, include = JsonTypeInfo.As.PROPERTY, property = "@class")
+public class GetProfileResponseDto implements Serializable {
 
     private Long id;
     private String name ;

@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
@@ -34,12 +36,14 @@ public class ProfileServiceImpl implements ProfileService {
 
 
     @Override
-    public List<SearchResponseDto> searchProfile(SearchRequestDto searchRequestDto) {
+    @Cacheable(value = "searchResults", key = "'sphere:user:search:' + #searchRequestDto.name")
+    public SearchResultsWrapper searchProfile(SearchRequestDto searchRequestDto) {
         String name  = searchRequestDto.getName();
         List<Profile> profiles = profileRepository.findByNameContainingIgnoreCase(name);
-        return profiles.stream()
+        List<SearchResponseDto> result = profiles.stream()
                 .map((profile)-> modelMapper.map(profile, SearchResponseDto.class))
                 .toList();
+        return new SearchResultsWrapper(result);
     }
 
     @Transactional
@@ -73,6 +77,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
+    @Cacheable(value = "userProfile", key = "'sphere:user:profile:' + #userId")
     public GetProfileResponseDto getProfile(Long userId) {
         log.info("Get profile by id: {}", userId);
         Profile profile = profileRepository.findByUserId(userId);
@@ -88,6 +93,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Transactional
     @Override
+    @CacheEvict(value = "userProfile", key = "'sphere:user:profile:' + #userId")
     public UpdatedProfileResponseDto updateProfileInfo(Map<String, Object> updates) {
         String header =  httpServletRequest.getHeader("Authorization");
         if(header == null || !header.startsWith("Bearer ")) {

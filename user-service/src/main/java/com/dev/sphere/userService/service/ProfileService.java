@@ -11,7 +11,7 @@ public interface ProfileService {
     GetProfileResponseDto getProfile(Long userId);
 
 
-    List<SearchResponseDto> searchProfile(SearchRequestDto searchRequestDto);
+    SearchResultsWrapper searchProfile(SearchRequestDto searchRequestDto);
 
     UpdatedProfileResponseDto updateProfileInfo(Map<String, Object> updates);
 }
