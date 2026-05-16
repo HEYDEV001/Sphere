@@ -1,5 +1,8 @@
 package com.dev.sphere.connection_service.auth;
 
+import org.springframework.stereotype.Component;
+
+@Component("userContextHolder")
 public class UserContextHolder {
 
     private static ThreadLocal<Long> currentUser = new ThreadLocal<>();

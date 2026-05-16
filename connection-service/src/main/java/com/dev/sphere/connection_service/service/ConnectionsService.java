@@ -7,6 +7,7 @@ import com.dev.sphere.connection_service.event.SendConnectionRequestEvent;
 import com.dev.sphere.connection_service.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ public class ConnectionsService {
     private final KafkaTemplate<Long, AcceptConnectionRequestEvent> acceptConnectionRequestKafkaTemplate;
 
 
+    @Cacheable(cacheNames = "getFirstDegreeConnections", key = "'sphere:connection:first' + @userContextHolder.getCurrentUser()")
     public List<Person> getFirstDegreeConnection() {
         Long userId = UserContextHolder.getCurrentUser();
         log.info("get First Degree Connection for the User with Id: {}", userId);
@@ -102,6 +104,7 @@ public class ConnectionsService {
         return personRepository.save(person);
     }
 
+    @Cacheable(cacheNames = "getPeopleYouMayKnow", key = "'sphere:connection:3rd+' + @userContextHolder.getCurrentUser()")
     public List<Person> getYouMayKnowConnections() {
         Long userId = UserContextHolder.getCurrentUser();
         log.info("getting Second Degree Connection for the User with Id: {}", userId);
