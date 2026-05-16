@@ -13,6 +13,8 @@ import com.dev.sphere.postService.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +54,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Cacheable(cacheNames = "getPost", key = "'sphere:post:getPost:'+ #postId")
     public PostDto getPostById(Long postId) {
+        log.info("Cache MISS for postId: {}", postId);
         log.info("Get post by id: {}", postId);
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post Not found with Id: " + postId));
@@ -72,6 +76,7 @@ public class PostServiceImpl implements PostService {
 
     @Transactional
     @Override
+    @CacheEvict(cacheNames = "deletePost", key =  "'sphere:post:deletePost:'+ #postId")
     public Boolean deletePost(Long postId) {
         log.info("Trying to delete the post with Id : {}", postId);
         Long userId = UserContextHolder.getCurrentUser();
