@@ -5,6 +5,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -41,6 +42,11 @@ public class JwtService {
                 .compact();
     }
 
+    @Cacheable(
+            value = "jwtValidation",
+            key = "'sphere:user:jwt:' + #token",
+            cacheManager = "jwtCacheManager"
+    )
     public Long getIdFromTheToken(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(getSecretKey())

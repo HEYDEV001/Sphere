@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -59,6 +60,7 @@ public class RedisConfig {
     }
 
     @Bean
+    @Primary
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration defaultCacheConfiguration =RedisCacheConfiguration
                 .defaultCacheConfig()
@@ -82,6 +84,33 @@ public class RedisConfig {
                 .withInitialCacheConfigurations(cacheConfiguration)
                 .build();
 
+    }
+
+    @Bean("jwtCacheManager")
+    public RedisCacheManager jwtCacheManager(RedisConnectionFactory connectionFactory) {
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
+        Jackson2JsonRedisSerializer<Long> longSerializer =
+                new Jackson2JsonRedisSerializer<>(mapper, Long.class);
+
+        RedisCacheConfiguration jwtConfig = RedisCacheConfiguration
+                .defaultCacheConfig()
+                .entryTtl(Duration.ofMinutes(10))
+                .serializeKeysWith(
+                        RedisSerializationContext.SerializationPair
+                                .fromSerializer(new StringRedisSerializer())
+                )
+                .serializeValuesWith(
+                        RedisSerializationContext.SerializationPair
+                                .fromSerializer(longSerializer)
+                )
+                .disableCachingNullValues();
+
+        return RedisCacheManager.builder(connectionFactory)
+                .cacheDefaults(jwtConfig)
+                .build();
     }
 
 }
