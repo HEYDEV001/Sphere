@@ -9,6 +9,14 @@ spring:
 
   cloud:
     gateway:
+      default-filters:
+        - name: RequestRateLimiter
+          args:
+            redis-rate-limiter.replenishRate: 10
+            redis-rate-limiter.burstCapacity: 20
+            redis-rate-limiter.requestedTokens: 1
+            key-resolver: "#{@userKeyResolver}"
+
       routes:
         - id: user-service
           uri: lb://USER-SERVICE
@@ -16,6 +24,13 @@ spring:
             - Path=/api/v1/user/**
           filters:
             - StripPrefix=2
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@userKeyResolver}"
+
 
         - id: post-service
           uri: lb://POST-SERVICE
@@ -24,6 +39,16 @@ spring:
           filters:
             - StripPrefix=2
             - name: AuthenticationFilter
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 20
+                redis-rate-limiter.burstCapacity: 40
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@userKeyResolver}"
+            - name: CircuitBreaker
+              args:
+                name: connectionServiceCB
+                fallbackUri: forward:/fallback/post-service
 
         - id: connection-service
           uri: lb://CONNECTION-SERVICE
@@ -32,6 +57,42 @@ spring:
           filters:
             - StripPrefix=2
             - name: AuthenticationFilter
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter.replenishRate: 15
+                redis-rate-limiter.burstCapacity: 30
+                redis-rate-limiter.requestedTokens: 1
+                key-resolver: "#{@userKeyResolver}"
+            - name: CircuitBreaker
+              args:
+                name: connectionServiceCB
+                fallbackUri: forward:/fallback/connection-service
+
+      httpclient:
+        connect-timeout: 2000
+        response-timeout: 5s
+
+#Resilence Configurations
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      postServiceCB:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        slow-call-duration-threshold: 3s
+        slow-call-rate-threshold: 50
+      connectionServiceCB:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        slow-call-duration-threshold: 3s
+        slow-call-rate-threshold: 50
+
+
 
 
 server:
