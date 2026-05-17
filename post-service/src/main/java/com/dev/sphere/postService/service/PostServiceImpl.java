@@ -1,8 +1,6 @@
 package com.dev.sphere.postService.service;
 
 import com.dev.sphere.postService.auth.UserContextHolder;
-import com.dev.sphere.postService.clients.ConnectionsClient;
-import com.dev.sphere.postService.dto.PersonDto;
 import com.dev.sphere.postService.dto.PostDto;
 import com.dev.sphere.postService.dto.PostRequestDto;
 import com.dev.sphere.postService.entity.Post;
@@ -18,8 +16,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.naming.AuthenticationException;
 import java.util.List;
 import java.util.stream.Collectors;
 

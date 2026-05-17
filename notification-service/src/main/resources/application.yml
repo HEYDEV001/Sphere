@@ -8,3 +8,34 @@ spring:
       properties:
         spring.json:
           trusted.packages: com.dev.sphere.*
+
+
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      connection-service:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        slow-call-duration-threshold: 3s
+        slow-call-rate-threshold: 50
+
+  retry:
+    instances:
+      connection-service:
+        max-attempts: 3
+        wait-duration: 500ms
+        retry-exceptions:
+          - java.io.IOException
+          - feign.FeignException
+
+  timelimiter:
+    instances:
+      connection-service:
+        timeout-duration: 3s
