@@ -7,11 +7,14 @@ import com.dev.sphere.userService.entity.User;
 import com.dev.sphere.userService.exception.ResourceNotFoundException;
 import com.dev.sphere.userService.repository.ProfileRepository;
 import com.dev.sphere.userService.repository.UserRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -78,11 +81,13 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Cacheable(value = "userProfile", key = "'sphere:user:profile:' + #userId")
+    @CircuitBreaker(name = "user-service", fallbackMethod = "handleGetProfileFallBack")
+    @Retry(name = "user-service", fallbackMethod = "handleGetProfileFallBack")
     public GetProfileResponseDto getProfile(Long userId) {
         log.info("Get profile by id: {}", userId);
         Profile profile = profileRepository.findByUserId(userId);
         if (profile == null) {
-            throw new RuntimeException("Profile not found");
+            throw new ResourceNotFoundException("Profile not found");
         }
         GetProfileResponseDto response =  modelMapper.map(profile, GetProfileResponseDto.class);
         List<PostDto> postDtoList = postClient.getAllPostsOfUser(userId);
@@ -114,4 +119,20 @@ public class ProfileServiceImpl implements ProfileService {
         profileRepository.save(profile);
         return modelMapper.map(profile, UpdatedProfileResponseDto.class);
     }
+
+
+    public GetProfileResponseDto handleGetProfileFallBack(Long userId, Throwable throwable) {
+        log.warn("Fallback triggered for getProfile  — " +
+                        "post-service unavailable. creatorId: {} — reason: {}",
+                userId, throwable.getMessage());
+        log.info("Get profile by id: {}", userId);
+        Profile profile = profileRepository.findByUserId(userId);
+        if (profile == null) {
+            throw new RuntimeException("Profile not found");
+        }
+        GetProfileResponseDto response =  modelMapper.map(profile, GetProfileResponseDto.class);
+        log.info("Sorry, Fetching the post of the user with userId: {} is not possible at the moment", userId);
+        return response;
+    }
+
 }

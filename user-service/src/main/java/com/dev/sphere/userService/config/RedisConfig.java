@@ -75,7 +75,7 @@ public class RedisConfig {
                                 .fromSerializer(new GenericJackson2JsonRedisSerializer()));
         //different TTL per cache
         Map<String, RedisCacheConfiguration> cacheConfiguration = new HashMap<>();
-        cacheConfiguration.put("userProfile", defaultCacheConfiguration.entryTtl(Duration.ofMinutes(10L)));
+        cacheConfiguration.put("userProfile", defaultCacheConfiguration.entryTtl(Duration.ofSeconds(30L)));
         cacheConfiguration.put("searchResults", defaultCacheConfiguration.entryTtl(Duration.ofMinutes(2L)));
 
 
