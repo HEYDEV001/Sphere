@@ -6,12 +6,9 @@ import com.dev.sphere.userService.entity.User;
 import com.dev.sphere.userService.exception.BadRequestException;
 import com.dev.sphere.userService.exception.ResourceNotFoundException;
 import com.dev.sphere.userService.repository.UserRepository;
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,12 +24,9 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final JwtService jwtService;
-    @Qualifier("com.dev.sphere.userService.clients.ConnectionsClient")
     private final ConnectionsClient connectionsClient;
 
     @Override
-    @CircuitBreaker(name = "user-service", fallbackMethod = "handleSignUpFallback")
-    @Retry(name = "user-service", fallbackMethod = "handleSignUpFallback")
     public UserDto signUp(SignUpDto signUpDto) {
         log.info("Signing up a new user with the following details: {}", signUpDto);
         Optional<User> user = userRepository.findByEmail(signUpDto.getEmail());
@@ -80,16 +74,5 @@ public class AuthServiceImpl implements AuthService {
                 () -> new ResourceNotFoundException("User does not exist with Id : " + id )
         );
         return jwtService.generateAccessToken(user);
-    }
-
-
-    //TODO: separate the connection pool function and apply the circuit breaker and rate limiting to that function
-
-    public UserDto handleSignUpFallback(SignUpDto signUpDto, Throwable throwable) {
-        log.warn("Fallback triggered for signup  — " +
-                        "connection-service unavailable. — reason: {}", throwable.getMessage());
-        log.info("Try Again after some time");
-        return new UserDto();
-
     }
 }

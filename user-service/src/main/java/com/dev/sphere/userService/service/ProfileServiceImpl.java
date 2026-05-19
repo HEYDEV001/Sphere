@@ -81,8 +81,8 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     @Cacheable(value = "userProfile", key = "'sphere:user:profile:' + #userId")
-    @CircuitBreaker(name = "user-service", fallbackMethod = "handleGetProfileFallBack")
-    @Retry(name = "user-service", fallbackMethod = "handleGetProfileFallBack")
+    @CircuitBreaker(name = "post-service", fallbackMethod = "handleGetProfileFallBack")
+    @Retry(name = "post-service", fallbackMethod = "handleGetProfileFallBack")
     public GetProfileResponseDto getProfile(Long userId) {
         log.info("Get profile by id: {}", userId);
         Profile profile = profileRepository.findByUserId(userId);
