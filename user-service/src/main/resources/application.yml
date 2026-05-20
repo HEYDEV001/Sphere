@@ -7,14 +7,6 @@ spring:
 resilience4j:
   circuitbreaker:
     instances:
-      connection-service:
-        sliding-window-size: 10
-        failure-rate-threshold: 50
-        wait-duration-in-open-state: 10s
-        permitted-number-of-calls-in-half-open-state: 3
-        slow-call-duration-threshold: 3s
-        slow-call-rate-threshold: 50
-
       post-service:
         sliding-window-size: 10
         failure-rate-threshold: 50
@@ -25,13 +17,6 @@ resilience4j:
 
   retry:
     instances:
-      connection-service:
-        max-attempts: 3
-        wait-duration: 500ms
-        retry-exceptions:
-          - java.io.IOException
-          - feign.FeignException
-
       post-service:
         max-attempts: 3
         wait-duration: 500ms
@@ -41,8 +26,14 @@ resilience4j:
 
   timelimiter:
     instances:
-      connection-service:
-        timeout-duration: 3s
-
       post-service:
         timeout-duration: 3s
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
