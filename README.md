@@ -344,6 +344,8 @@ cd notification-service && mvn spring-boot:run
 | Config Server | 8888 |
 | User Service | 9020 |
 | Post Service | 9010 |
+| Connection Service | 9030 |
+| Notification Service | 9040 |
 | Zipkin UI | 9411 |
 
 ### Example API Calls
