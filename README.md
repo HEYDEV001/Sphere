@@ -143,15 +143,15 @@ Sphere/
         ├── clients/
         │   ├── ConnectionsClient.java
         │   ├── ConnectionsClientFallback.java
-        │   └── ConnectionsClientFallbackFactory.java
         ├── config/
-        │   └── CircuitBreakerCacheEvictConfig.java  # Evicts stale cache on CB close
+        │   └── AppConfig.java
         ├── consumer/
         │   ├── ConnectionServiceConsumer.java   # Listens to connection events
         │   └── PostServiceConsumer.java         # Listens to post events + CB/retry
         ├── entity/
         │   └── Notification.java
         ├── repository/
+            └── NorificationRepository.java
         └── service/
             └── SendNotification.java
 ```
