@@ -319,7 +319,7 @@ export FRONTEND_URL=http://localhost:3000
 
 ```bash
 # 1. Infrastructure
-docker-compose up -d  # PostgreSQL, Neo4j, Kafka, Zookeeper, Redis, Zipkin
+docker-compose up -d  # PostgreSQL, Neo4j, Kafka, Redis, Zipkin
 
 # 2. Discovery server
 cd discovery-server && mvn spring-boot:run
