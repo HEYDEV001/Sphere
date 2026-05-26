@@ -418,9 +418,8 @@ Open Zipkin at `http://localhost:9411` — every authenticated request generates
 
 ## What's Coming Next
 
-- [ ] Password reset flow (email-based token)
+- [ ] Password reset flow
 - [ ] Direct messaging service (WebSocket + Kafka)
-- [ ] Unit + integration tests (JUnit + Mockito + Testcontainers)
 - [ ] CI/CD pipeline (GitHub Actions)
 
 ---
