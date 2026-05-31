@@ -1,10 +1,8 @@
 package com.dev.sphere.userService.controller;
 
-import com.dev.sphere.userService.dto.LoginDto;
-import com.dev.sphere.userService.dto.LoginResponseDto;
-import com.dev.sphere.userService.dto.SignUpDto;
-import com.dev.sphere.userService.dto.UserDto;
+import com.dev.sphere.userService.dto.*;
 import com.dev.sphere.userService.service.AuthService;
+import com.dev.sphere.userService.service.PasswordResetService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +24,7 @@ import java.util.Arrays;
 public class AuthController {
 
     private final AuthService authService;
+    private final PasswordResetService passwordResetService;
 
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signUp(@RequestBody SignUpDto signUpDto) {
@@ -54,5 +53,21 @@ public class AuthController {
         String accessToken = authService.refresh(refreshToken);
         return ResponseEntity.ok(new LoginResponseDto(accessToken));
 
+    }
+
+
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(
+            @RequestBody ForgotPasswordRequestDto requestDto) {
+        passwordResetService.forgotPassword(requestDto);
+        return ResponseEntity.ok("If that email exists in our system, a reset link has been sent.");
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(
+            @RequestBody ResetPasswordRequestDto requestDto) {
+        passwordResetService.resetPassword(requestDto);
+        return ResponseEntity.ok("Password reset successfully.");
     }
 }
