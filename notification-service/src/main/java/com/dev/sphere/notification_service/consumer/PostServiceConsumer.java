@@ -2,8 +2,6 @@ package com.dev.sphere.notification_service.consumer;
 
 import com.dev.sphere.notification_service.clients.ConnectionsClient;
 import com.dev.sphere.notification_service.dto.PersonDto;
-import com.dev.sphere.notification_service.entity.Notification;
-import com.dev.sphere.notification_service.repository.NotificationRepository;
 import com.dev.sphere.notification_service.service.SendNotification;
 import com.dev.sphere.postService.event.PostCreatedEvent;
 import com.dev.sphere.postService.event.PostLikedEvent;

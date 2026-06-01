@@ -3,7 +3,7 @@ package com.dev.sphere.userService.service;
 import com.dev.sphere.userService.dto.ForgotPasswordRequestDto;
 import com.dev.sphere.userService.dto.ResetPasswordRequestDto;
 import com.dev.sphere.userService.entity.User;
-import com.dev.sphere.userService.events.PasswordResetEvent;
+import com.dev.sphere.userService.event.PasswordResetEvent;
 import com.dev.sphere.userService.exception.BadRequestException;
 import com.dev.sphere.userService.exception.ResourceNotFoundException;
 import com.dev.sphere.userService.repository.UserRepository;
@@ -30,7 +30,7 @@ public class PasswordResetServiceImpl implements PasswordResetService {
     private String baseUrl;
 
     private static final String RESET_TOKEN_PREFIX = "sphere:password:reset";
-    private static final String TOPIC = "password:reset:topic";
+    private static final String TOPIC = "password-reset-topic";
     private final UserRepository userRepository;
     private final RedisTemplate<String, String> redisTemplate;
     private final KafkaTemplate<Long, PasswordResetEvent> kafkaTemplate;

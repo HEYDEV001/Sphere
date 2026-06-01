@@ -1,5 +1,6 @@
 package com.dev.sphere.userService.controller;
 
+import com.dev.sphere.userService.annotation.NoWrap;
 import com.dev.sphere.userService.dto.*;
 import com.dev.sphere.userService.service.AuthService;
 import com.dev.sphere.userService.service.PasswordResetService;
@@ -57,16 +58,16 @@ public class AuthController {
 
 
 
+    @NoWrap
     @PostMapping("/forgot-password")
-    public ResponseEntity<String> forgotPassword(
-            @RequestBody ForgotPasswordRequestDto requestDto) {
+    public ResponseEntity<String> forgotPassword(@RequestBody ForgotPasswordRequestDto requestDto) {
         passwordResetService.forgotPassword(requestDto);
         return ResponseEntity.ok("If that email exists in our system, a reset link has been sent.");
     }
 
+    @NoWrap
     @PostMapping("/reset-password")
-    public ResponseEntity<String> resetPassword(
-            @RequestBody ResetPasswordRequestDto requestDto) {
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequestDto requestDto) {
         passwordResetService.resetPassword(requestDto);
         return ResponseEntity.ok("Password reset successfully.");
     }

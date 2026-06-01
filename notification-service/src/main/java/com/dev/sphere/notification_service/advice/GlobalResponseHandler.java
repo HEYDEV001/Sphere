@@ -1,5 +1,6 @@
 package com.dev.sphere.notification_service.advice;
 
+import com.dev.sphere.notification_service.annotation.NoWrap;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -14,7 +15,8 @@ import java.util.List;
 public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return true;
+        // Skip wrapping if @NoWrap is present on method
+        return !returnType.hasMethodAnnotation(NoWrap.class);
     }
 
     @Override

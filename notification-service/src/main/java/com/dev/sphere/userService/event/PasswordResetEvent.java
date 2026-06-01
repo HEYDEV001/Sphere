@@ -1,4 +1,4 @@
-package com.dev.sphere.userService.events;
+package com.dev.sphere.userService.event;
 
 
 import lombok.AllArgsConstructor;
