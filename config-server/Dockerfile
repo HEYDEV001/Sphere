@@ -13,16 +13,15 @@ COPY src ./src
 RUN mvn clean package -DskipTests -q
 
 # Stage 2 — Run
-FROM gcr.io/distroless/java17-debian12
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-# copy only the jar from the build stage
 COPY --from=builder /app/target/*.jar app.jar
 
-# non-root user for security
-USER nonroot
+RUN useradd -m sphere
+USER sphere
 
-EXPOSE 8080
+EXPOSE 8888
 
 ENTRYPOINT ["java", "-jar", "app.jar"]

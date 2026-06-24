@@ -16,7 +16,7 @@ server:
 eureka:
   client:
     service-url:
-      default-zone: http://discovery-server:8761/eureka/
+      defaultZone: http://discovery-server:8761/eureka/  # fix localhost → discovery-server
 
 
 
