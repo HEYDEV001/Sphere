@@ -34,18 +34,106 @@ public class EmailServiceImpl implements EmailService {
         Email to = new Email(toEmail);
         String subject = "Reset your Sphere password.";
 
-        String body = "<div style='font-family: Arial, sans-serif; max-width: 600px;'>"
-                + "<h2>Hi " + name + ",</h2>"
-                + "<p>You requested to reset your <strong>Sphere</strong> password.</p>"
-                + "<p>Click the button below to reset it. "
-                + "This link expires in <strong>15 minutes</strong>.</p>"
-                + "<a href='" + resetLink + "' "
-                + "style='background-color:#0077B5;color:white;padding:12px 24px;"
-                + "text-decoration:none;border-radius:6px;display:inline-block;margin:16px 0;'>"
-                + "Reset Password</a>"
-                + "<p>If you didn't request this, you can safely ignore this email.</p>"
-                + "<p>— The Sphere Team</p>"
-                + "</div>";
+        String body = """
+<html>
+<body style="margin:0;padding:0;background-color:#f4f6f8;font-family:Arial,sans-serif;">
+    <table width="100%%" cellpadding="0" cellspacing="0">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0"
+                       style="background:#ffffff;margin:40px auto;
+                              border-radius:12px;padding:40px;">
+
+                    <tr>
+                        <td align="center">
+                            <h1 style="color:#0077B5;margin:0;">
+                                Sphere
+                            </h1>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="center" style="padding-top:20px;">
+                            <h2 style="font-size:38px;
+                                       color:#333333;
+                                       margin:0;">
+                                Reset Your Password
+                            </h2>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding-top:35px;">
+                            <p style="font-size:18px;color:#444;">
+                                Hi %s,
+                            </p>
+
+                            <p style="font-size:16px;
+                                      line-height:1.7;
+                                      color:#555;">
+                               Forgot your password? That’s okay, it happens!
+                            </p>
+
+                            <p style="font-size:16px;
+                                      line-height:1.0;
+                                      color:#555;">
+                                Click the button below to create a new password for your SPHERE account.
+                                For security reasons, this link will expire in
+                                <strong>15 minutes</strong>.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td align="center" style="padding:30px 0;">
+                            <a href="%s"
+                               style="background:#0077B5;
+                                      color:#ffffff;
+                                      text-decoration:none;
+                                      padding:14px 32px;
+                                      border-radius:8px;
+                                      font-size:16px;
+                                      font-weight:bold;
+                                      display:inline-block;">
+                                RESET PASSWORD
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <p style="font-size:14px;
+                                      color:#777;
+                                      line-height:1.6;">
+                                If you didn't request a password reset,
+                                you can safely ignore this email.
+                                Your password will remain unchanged.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding-top:25px;">
+                            <hr style="border:none;border-top:1px solid #e5e7eb;">
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding-top:20px;">
+                            <p style="font-size:14px;color:#777;">
+                                Regards,<br>
+                                <strong>Sphere Team</strong>
+                            </p>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
+""".formatted(name, resetLink);
 
         Content content = new Content("text/html", body);
         Mail mail = new Mail(from, subject, to, content);
