@@ -498,11 +498,6 @@ Open Kafbat UI at `http://localhost:8090` — monitor topics, consumer groups, m
 ## What's Coming Next
 
 - [ ] Direct messaging service (WebSocket + Kafka)
-- [ ] Post feed (home timeline from connection graph)
-- [ ] Full-text search (PostgreSQL FTS or Elasticsearch)
-- [ ] Post reactions and comments
-- [ ] JWT refresh token rotation
-- [ ] Unit + integration tests (JUnit + Mockito + Testcontainers)
 - [ ] CI/CD pipeline (GitHub Actions)
 
 ---
