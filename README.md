@@ -23,7 +23,7 @@ API Gateway  (port 8080)
   │
   ├──▶ Config Server         → Centralized configuration for all services
   ├──▶ User Service          → Auth, profiles, registration, search
-  ├──▶ Post Service          → Post CRUD, likes, feed
+  ├──▶ Post Service          → Post CRUD, likes
   ├──▶ Connection Service    → Follow graph (Neo4j), people you may know
   └──▶ Notification Service  → Kafka consumer, event-driven alerts
 
